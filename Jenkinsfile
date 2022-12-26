@@ -1,23 +1,14 @@
 pipeline {
-    agent any
-    tools {
-        jdk 'jdk'
-        maven '3.6.3'
-
+    agent {
+        docker {
+            image 'maven:3.8.6-eclipse-temurin-11'
+            args '-v /root/.m2:/root/.m2'
+        }
     }
     stages {
-        stage("build project") {
+        stage('Build') {
             steps {
-               // git 'https://github.com/denizturkmen/SpringBootMysqlCrud.git'
-                echo "Java VERSION"
-                sh 'java -version'
-                echo "Maven VERSION"
-                sh 'mvn -version'
-                echo 'building project...'
-                sh "mvn compile"
-                sh "mvn package"
-                //sh "mvn test"
-                sh "mvn clean install"
+                sh 'mvn -B -DskipTests clean package'
             }
         }
     }
