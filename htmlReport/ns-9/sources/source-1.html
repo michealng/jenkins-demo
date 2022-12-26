@@ -1,0 +1,373 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ItemService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.demo.service</a>
+</div>
+
+<h1>Coverage Summary for Class: ItemService (com.example.demo.service)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.3%
+  </span>
+  <span class="absValue">
+    (140/150)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u$auxiliary$8wHTF9UL</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u$auxiliary$IkPYoFnQ</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u$auxiliary$j7acG85M</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u$auxiliary$JrZOk7qJ</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u$auxiliary$jv09BDCD</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u$auxiliary$kCxVu1Qo</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u$auxiliary$nOv961gh</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u$auxiliary$qhCY7MHA</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u$auxiliary$S6BroKSc</td>
+  </tr>
+  <tr>
+    <td class="name">ItemService$MockitoMock$57WTAb0u$auxiliary$X2K6TIAu</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.3%
+  </span>
+  <span class="absValue">
+    (140/150)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.demo.service;
+&nbsp;
+&nbsp;import com.example.demo.dto.ItemDTO;
+&nbsp;import com.example.demo.model.BaseItem;
+&nbsp;import com.example.demo.model.Item;
+&nbsp;import com.example.demo.model.ListResponse;
+&nbsp;import com.example.demo.model.Response;
+&nbsp;import com.example.demo.repository.CustomItemRepository;
+&nbsp;import com.example.demo.repository.ItemMongoRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;import org.springframework.data.domain.PageRequest;
+&nbsp;import org.springframework.data.domain.Pageable;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class ItemService {</b>
+&nbsp;    @Autowired
+&nbsp;    private ItemMongoRepository itemMongoRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private CustomItemRepository customItemRepository;
+&nbsp;
+&nbsp;//    public ItemService(ItemMongoRepository itemMongoRepository, CustomItemRepository customItemRepository) {
+&nbsp;//        this.itemMongoRepository = itemMongoRepository;
+&nbsp;//        this.customItemRepository = customItemRepository;
+&nbsp;//    }
+&nbsp;
+&nbsp;    public ListResponse findAllItem(int page, int size) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Pageable pageRequest = PageRequest.of(page, size);</b>
+<b class="fc">&nbsp;            Page&lt;Item&gt; items = itemMongoRepository.findAll(pageRequest);</b>
+<b class="fc">&nbsp;            ListResponse customResponse = new ListResponse();</b>
+<b class="fc">&nbsp;            List&lt;BaseItem&gt; itemList = new ArrayList&lt;&gt;();</b>
+&nbsp;            ItemDTO item;
+<b class="fc">&nbsp;            for (Item tmp: items.getContent()) {</b>
+<b class="fc">&nbsp;                item = new ItemDTO(tmp);</b>
+<b class="fc">&nbsp;                itemList.add(item);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            customResponse.setData(itemList);</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Found data&quot;);</b>
+<b class="fc">&nbsp;            customResponse.setPageCount(items.getTotalPages());</b>
+<b class="fc">&nbsp;            customResponse.setPageNumber(items.getNumber());</b>
+<b class="fc">&nbsp;            customResponse.setPageSize(items.getSize());</b>
+<b class="fc">&nbsp;            customResponse.setTotalRecords(items.getTotalElements());</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+<b class="fc">&nbsp;        } catch (Exception e) {</b>
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            ListResponse customResponse = new ListResponse();</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Cannot find data&quot;);</b>
+<b class="fc">&nbsp;            customResponse.setError(&quot;Internal server error&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public ListResponse getItemsByCategory(String category, int page, int size) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Pageable pageRequest = PageRequest.of(page, size);</b>
+<b class="fc">&nbsp;            Page&lt;Item&gt; items = itemMongoRepository.findItemsByCategory(category, pageRequest);</b>
+<b class="fc">&nbsp;            ListResponse customResponse = new ListResponse();</b>
+<b class="fc">&nbsp;            List&lt;BaseItem&gt; itemList = new ArrayList&lt;&gt;();</b>
+&nbsp;            ItemDTO item;
+<b class="fc">&nbsp;            for (Item tmp: items.getContent()) {</b>
+<b class="fc">&nbsp;                item = new ItemDTO(tmp);</b>
+<b class="fc">&nbsp;                itemList.add(item);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            customResponse.setData(itemList);</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Found data&quot;);</b>
+<b class="fc">&nbsp;            customResponse.setPageCount(items.getTotalPages());</b>
+<b class="fc">&nbsp;            customResponse.setPageNumber(items.getNumber());</b>
+<b class="fc">&nbsp;            customResponse.setPageSize(items.getSize());</b>
+<b class="fc">&nbsp;            customResponse.setTotalRecords(items.getTotalElements());</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+<b class="fc">&nbsp;        } catch (Exception e) {</b>
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            ListResponse customResponse = new ListResponse();</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Cannot find data&quot;);</b>
+<b class="fc">&nbsp;            customResponse.setError(&quot;Internal server error&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Response findOneItem(String itemId) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Optional&lt;Item&gt; itemOptional = itemMongoRepository.findById(itemId);</b>
+<b class="fc">&nbsp;            Response customResponse = new Response();</b>
+<b class="fc">&nbsp;            if (!itemOptional.isPresent()) {</b>
+<b class="nc">&nbsp;                customResponse.setMessage(&quot;Cannot find item by id&quot;);</b>
+<b class="nc">&nbsp;                return customResponse;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            BaseItem item = new BaseItem();</b>
+<b class="fc">&nbsp;            item.setName(itemOptional.get().getName());</b>
+<b class="fc">&nbsp;            item.setCategory(itemOptional.get().getCategory());</b>
+<b class="fc">&nbsp;            item.setQuantity(itemOptional.get().getQuantity());</b>
+<b class="fc">&nbsp;            customResponse.setData(item);</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Found one item&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+<b class="fc">&nbsp;        } catch (Exception e) {</b>
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            Response customResponse = new Response();</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Cannot find item by id&quot;);</b>
+<b class="fc">&nbsp;            customResponse.setError(&quot;Internal server error&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Response createItem(BaseItem itemRequest) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Item item = new Item();</b>
+<b class="fc">&nbsp;            item.setName((itemRequest.getName() != null) ? itemRequest.getName() : &quot;&quot;);</b>
+<b class="fc">&nbsp;            item.setCategory((itemRequest.getCategory() != null) ? itemRequest.getCategory() : &quot;&quot;);</b>
+<b class="fc">&nbsp;            item.setQuantity((itemRequest.getQuantity() != 0) ? itemRequest.getQuantity() : 0);</b>
+<b class="fc">&nbsp;            itemMongoRepository.save(item);</b>
+<b class="fc">&nbsp;            Response customResponse = new Response();</b>
+<b class="fc">&nbsp;            BaseItem itemDTO = new BaseItem();</b>
+<b class="fc">&nbsp;            itemDTO.setName(item.getName());</b>
+<b class="fc">&nbsp;            itemDTO.setQuantity(item.getQuantity());</b>
+<b class="fc">&nbsp;            itemDTO.setCategory(item.getCategory());</b>
+<b class="fc">&nbsp;            customResponse.setData(itemDTO);</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Item saved successfully&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+<b class="fc">&nbsp;        } catch (Exception e) {</b>
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            Response customResponse = new Response();</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Cannot save item&quot;);</b>
+<b class="fc">&nbsp;            customResponse.setError(&quot;Internal server error&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Response updateItem(String id, BaseItem itemRequest) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Optional&lt;Item&gt; itemOptional = itemMongoRepository.findById(id);</b>
+<b class="fc">&nbsp;            Response customResponse = new Response();</b>
+<b class="fc">&nbsp;            if (!itemOptional.isPresent()) {</b>
+<b class="fc">&nbsp;                customResponse.setMessage(&quot;Cannot find item by id&quot;);</b>
+<b class="fc">&nbsp;                return customResponse;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            Item item = itemOptional.get();</b>
+<b class="fc">&nbsp;            item.setName((itemRequest.getName() != null) ? itemRequest.getName() : item.getName());</b>
+<b class="fc">&nbsp;            item.setCategory((itemRequest.getCategory() != null) ? itemRequest.getCategory() : item.getCategory());</b>
+<b class="fc">&nbsp;            item.setQuantity((itemRequest.getQuantity() != null &amp;&amp; itemRequest.getQuantity() != 0) ? itemRequest.getQuantity() : item.getQuantity());</b>
+<b class="fc">&nbsp;            itemMongoRepository.save(item);</b>
+<b class="fc">&nbsp;            BaseItem itemDTO = new BaseItem();</b>
+<b class="fc">&nbsp;            itemDTO.setName(item.getName());</b>
+<b class="fc">&nbsp;            itemDTO.setQuantity(item.getQuantity());</b>
+<b class="fc">&nbsp;            itemDTO.setCategory(item.getCategory());</b>
+<b class="fc">&nbsp;            customResponse.setData(itemDTO);</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Item saved successfully&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+<b class="fc">&nbsp;        } catch (Exception e) {</b>
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            Response customResponse = new Response();</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Cannot save item&quot;);</b>
+<b class="fc">&nbsp;            customResponse.setError(&quot;Internal server error&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public ListResponse createBulkItems(List&lt;BaseItem&gt; itemRequests) {
+&nbsp;        try {
+<b class="fc">&nbsp;            List&lt;Item&gt; itemList = new ArrayList&lt;&gt;();</b>
+&nbsp;            Item item;
+<b class="fc">&nbsp;            for (BaseItem itemRequest: itemRequests) {</b>
+<b class="fc">&nbsp;                item = new Item(itemRequest);</b>
+<b class="fc">&nbsp;                itemList.add(item);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            int insertedItems = customItemRepository.bulkCreateItems(itemList);</b>
+<b class="fc">&nbsp;            ListResponse customResponse = new ListResponse();</b>
+<b class="fc">&nbsp;            if (insertedItems == 0) {</b>
+<b class="fc">&nbsp;                customResponse.setMessage(&quot;Cannot save item&quot;);</b>
+<b class="fc">&nbsp;                customResponse.setError(&quot;Internal server error&quot;);</b>
+<b class="fc">&nbsp;                return customResponse;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Item saved successfully&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;            ListResponse customResponse = new ListResponse();</b>
+<b class="nc">&nbsp;            customResponse.setMessage(&quot;Cannot save item&quot;);</b>
+<b class="nc">&nbsp;            customResponse.setError(&quot;Internal server error&quot;);</b>
+<b class="nc">&nbsp;            return customResponse;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Response getItemByName(String name) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Item item = itemMongoRepository.findItemByName(name);</b>
+<b class="fc">&nbsp;            Response customResponse = new Response();</b>
+<b class="fc">&nbsp;            if (item == null) {</b>
+<b class="nc">&nbsp;                customResponse.setMessage(&quot;Cannot find item by name: &quot; + name);</b>
+<b class="nc">&nbsp;                return customResponse;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            BaseItem itemDTO = new BaseItem();</b>
+<b class="fc">&nbsp;            itemDTO.setName(item.getName());</b>
+<b class="fc">&nbsp;            itemDTO.setQuantity(item.getQuantity());</b>
+<b class="fc">&nbsp;            itemDTO.setCategory(item.getCategory());</b>
+<b class="fc">&nbsp;            customResponse.setData(itemDTO);</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Found one item&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+<b class="fc">&nbsp;        } catch (Exception e) {</b>
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            Response customResponse = new Response();</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Cannot find item by name: &quot; + name);</b>
+<b class="fc">&nbsp;            customResponse.setError(&quot;Internal server error&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Response deleteItemById(String id) {
+&nbsp;        try {
+<b class="fc">&nbsp;            itemMongoRepository.deleteById(id);</b>
+<b class="fc">&nbsp;            Response customResponse = new Response();</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Item deleted successfully&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+<b class="fc">&nbsp;        } catch (Exception e) {</b>
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            Response customResponse = new Response();</b>
+<b class="fc">&nbsp;            customResponse.setMessage(&quot;Cannot delete item&quot;);</b>
+<b class="fc">&nbsp;            customResponse.setError(&quot;Internal server error&quot;);</b>
+<b class="fc">&nbsp;            return customResponse;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-23 09:19</div>
+</div>
+</body>
+</html>

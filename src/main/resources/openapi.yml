@@ -1,0 +1,388 @@
+openapi: 3.0.3
+info:
+  title: Swagger Demo Project - OpenAPI 3.0
+  description: |-
+    API specification for demo project
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8080/api/v1
+tags:
+  - name: item
+    description: CRUD for items
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /items:
+    post:
+      tags:
+        - item
+      summary: Add an item
+      description: Add an item
+      operationId: addOneItem
+      requestBody:
+        description: Create a item
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseItem'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BaseItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BaseItem'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+#      security:
+#        - items_auth:
+#            - write:items
+#            - read:items
+    get:
+      tags:
+        - item
+      summary: Find all items
+      description: Find all items
+      operationId: findAllItems
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: The category of the item
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: The page to show results
+        - in: query
+          name: size
+          schema:
+            type: integer
+          description: The size of page
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ListResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListResponse"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListResponse"
+#      security:
+#        - items_auth:
+#            - write:items
+#            - read:items
+  /items/bulk:
+    post:
+      tags:
+        - item
+      summary: Add many items
+      description: Add many items
+      operationId: addManyItems
+      requestBody:
+        description: Create many items
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemList'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ItemList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemList'
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ListResponse'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListResponse"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListResponse"
+#      security:
+#        - items_auth:
+#            - write:items
+#            - read:items
+  /items/{name}:
+    get:
+      tags:
+        - item
+      summary: Find an item by name
+      description: Find an item by name
+      operationId: findItemByName
+      parameters:
+        - name: name
+          in: path
+          description: name of item to find
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Response'
+
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+#      security:
+#        - items_auth:
+#            - write:items
+#            - read:items
+  /items/{id}:
+    put:
+      tags:
+        - item
+      summary: Update item by id
+      description: Update item by id
+      operationId: updateItemById
+      parameters:
+        - name: id
+          in: path
+          description: ID of item to update
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        description: Update an item
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseItem'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/BaseItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BaseItem'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        '500':
+          description: Internal server error
+#      security:
+#        - api_key: []
+#        - items_auth:
+#            - write:items
+#            - read:items
+    delete:
+      tags:
+        - item
+      summary: Deletes an item by id
+      description: delete an item by id
+      operationId: deleteItem
+      parameters:
+        - name: id
+          in: path
+          description: Item id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '400':
+          description: Invalid item value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+#      security:
+#        - items_auth:
+#            - write:items
+#            - read:items
+components:
+  schemas:
+    BaseItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Item name
+        category:
+          type: string
+          description: Category name
+        quantity:
+          type: integer
+          format: int32
+#      xml:
+#        name: item
+    Response:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/BaseItem'
+        message:
+          type: string
+          example: Error found
+        error:
+          type: string
+          example: Internal server error
+#      xml:
+#        name: response
+    ListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseItem'
+        message:
+          type: string
+          example: Error found
+        error:
+          type: string
+          example: Internal server error
+        pageCount:
+          type: integer
+          example: 30
+        pageNumber:
+          type: integer
+          example: 1
+        pageSize:
+          type: integer
+          example: 10
+        totalRecords:
+          type: integer
+          format: int64
+          example: 100
+#      xml:
+#        name: listResponse
+    ItemList:
+      type: array
+      items:
+        $ref: '#/components/schemas/BaseItem'
+#      xml:
+#        name: itemList
+#    Error:
+#      type: object
+#      required:
+#        - code
+#        - message
+#      properties:
+#        code:
+#          type: integer
+#          format: int32
+#        message:
+#          type: string
+
+#  securitySchemes:
+#    items_auth:
+#      type: oauth2
+#      flows:
+#        implicit:
+#          authorizationUrl: http://localhost:8080/oauth/authorize
+#          scopes:
+#            write:items: modify items in your account
+#            read:items: read your items
+#    api_key:
+#      type: apiKey
+#      name: api_key
+#      in: header
