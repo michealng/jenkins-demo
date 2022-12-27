@@ -7,7 +7,7 @@ node {
     def dockerImage
     // ip address of the docker private repository(nexus)
  
-    def dockerImageTag = "jenkinsexample${env.BUILD_NUMBER}"
+    def dockerImageTag = "michealng385/jenkinsexample${env.BUILD_NUMBER}"
 
     environment {
         DOCKERHUB_CREDENTIALS=credentials('jenkins-docker-hub')
@@ -29,7 +29,7 @@ node {
 		
     stage('Build Docker Image') {
       // build docker image
-      dockerImage = docker.build("jenkinsexample:${env.BUILD_NUMBER}")
+      dockerImage = docker.build("michealng385/jenkinsexample:${env.BUILD_NUMBER}")
     }
    
     stage('Deploy Docker Image'){
@@ -42,7 +42,7 @@ node {
 	  
 	  sh "docker rm jenkinsexample || true"
 	  
-	  sh "docker run --name jenkinsexample -d -p 2222:2222 jenkinsexample:${env.BUILD_NUMBER}"
+	  sh "docker run --name jenkinsexample -d -p 2222:2222 michealng385/jenkinsexample:${env.BUILD_NUMBER}"
 	  
 // 	  docker.withRegistry('https://registry.hub.docker.com', 'jenkins-docker-hub') {
 //          dockerImage.push("${env.BUILD_NUMBER}")
