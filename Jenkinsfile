@@ -8,6 +8,10 @@ node {
     // ip address of the docker private repository(nexus)
  
     def dockerImageTag = "jenkinsexample${env.BUILD_NUMBER}"
+
+    environment {
+        DOCKERHUB_CREDENTIALS=credentials('jenkins-docker-hub')
+    }
     
     stage('Clone Repo') { // for display purposes
       // Get some code from a GitHub repository
@@ -40,10 +44,21 @@ node {
 	  
 	  sh "docker run --name jenkinsexample -d -p 2222:2222 jenkinsexample:${env.BUILD_NUMBER}"
 	  
-	  docker.withRegistry('https://registry.hub.docker.com', 'jenkins-docker-hub') {
-         dockerImage.push("${env.BUILD_NUMBER}")
-           dockerImage.push("latest")
-       }
+// 	  docker.withRegistry('https://registry.hub.docker.com', 'jenkins-docker-hub') {
+//          dockerImage.push("${env.BUILD_NUMBER}")
+//            dockerImage.push("latest")
+//        }
       
     }
+
+    stage('Push image') {
+
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+
+        sh 'docker push michealng385/jenkinsexample:${env.BUILD_NUMBER}'
+//       withDockerRegistry([ credentialsId: "jenkins-docker-hub", url: "" ]) {
+//         dockerImage.push()
+//       }
+    }
+
 }
