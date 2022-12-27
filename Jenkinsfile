@@ -61,9 +61,9 @@ node {
 //       }
         withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
             // some block
-            sh 'docker login -u michealng385 -p ${dockerhubpwd}'
+            sh "docker login -u michealng385 -p ${dockerhubpwd}"
 
-            sh 'docker push michealng385/jenkinsexample:${env.BUILD_NUMBER}'
+            sh "docker push michealng385/jenkinsexample:${env.BUILD_NUMBER}"
         }
     }
 
