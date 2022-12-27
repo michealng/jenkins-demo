@@ -34,16 +34,16 @@ node {
 		
       echo "Docker Image Tag Name: ${dockerImageTag}"
 	  
-	  sh "docker stop jenkinsexample"
+	  sh "docker stop jenkinsexample || true"
 	  
-	  sh "docker rm jenkinsexample"
+	  sh "docker rm jenkinsexample || true"
 	  
 	  sh "docker run --name jenkinsexample -d -p 2222:2222 jenkinsexample:${env.BUILD_NUMBER}"
 	  
-	  // docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-      //    dockerImage.push("${env.BUILD_NUMBER}")
-      //      dockerImage.push("latest")
-      //  }
+	  docker.withRegistry('https://registry.hub.docker.com', 'jenkins-docker-hub') {
+         dockerImage.push("${env.BUILD_NUMBER}")
+           dockerImage.push("latest")
+       }
       
     }
 }
