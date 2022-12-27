@@ -53,12 +53,18 @@ node {
 
     stage('Push image') {
 
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-
-        sh 'docker push michealng385/jenkinsexample:${env.BUILD_NUMBER}'
+//         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+//
+//         sh 'docker push michealng385/jenkinsexample:${env.BUILD_NUMBER}'
 //       withDockerRegistry([ credentialsId: "jenkins-docker-hub", url: "" ]) {
 //         dockerImage.push()
 //       }
+        withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+            // some block
+            sh 'docker login -u michealng385 -p ${dockerhubpwd}'
+
+            sh 'docker push michealng385/jenkinsexample:${env.BUILD_NUMBER}'
+        }
     }
 
 }
