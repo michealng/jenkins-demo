@@ -1,10 +1,7 @@
 FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+ADD target/devOpsDemo-0.0.1-SNAPSHOT.jar app.jar
 
-RUN apk update \
-    && apk add --no-cache gnupg
+ENTRYPOINT ["java","-jar","app.jar"]
 
-COPY target/*.jar app.jar
-
-EXPOSE 8081
-
-CMD ["java","-jar","app.jar"]
+EXPOSE 2222
