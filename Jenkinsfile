@@ -26,11 +26,11 @@ node {
       // build project via maven
       sh "'${mvnHome}/bin/mvn' clean install"
 
-      post {
-          success {
-              junit '**/target/surefire-reports/TEST-*.xml'
-          }
-      }
+//       post {
+//           success {
+//               junit '**/target/surefire-reports/TEST-*.xml'
+//           }
+//       }
     }
 		
     stage('Build Docker Image') {
