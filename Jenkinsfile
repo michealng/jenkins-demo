@@ -22,9 +22,15 @@ node {
       mvnHome = tool 'maven-3.6.3'
     }    
   
-    stage('Build Project') {
+    stage('Build Project and Unit test') {
       // build project via maven
       sh "'${mvnHome}/bin/mvn' clean install"
+
+      post {
+          success {
+              junit '**/target/surefire-reports/TEST-*.xml'
+          }
+      }
     }
 		
     stage('Build Docker Image') {
@@ -51,7 +57,7 @@ node {
       
     }
 
-    stage('Push image') {
+    stage('Push image to Docker hub') {
 
 //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 //
