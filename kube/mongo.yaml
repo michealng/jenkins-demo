@@ -19,6 +19,10 @@ spec:
   ports:
     - port: 27017
       targetPort: 27017
+      nodePort: 32000
+  type: NodePort
+status:
+  loadBalancer: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -41,6 +45,17 @@ spec:
           volumeMounts:
             - name: storage
               mountPath: /data/db
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-creds
+                  key: username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-creds
+                  key: password
       volumes:
         - name: storage
           persistentVolumeClaim:

@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: michealng385/demo-k8s:2.0.0
+          image: michealng385/demo-k8s:3.0.0
           ports:
             - containerPort: 8080
           env:
@@ -45,4 +45,14 @@ spec:
                 configMapKeyRef:
                   name: db-config
                   key: port
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-creds
+                  key: username
+            - name: MONGO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-creds
+                  key: password
           imagePullPolicy: Always
