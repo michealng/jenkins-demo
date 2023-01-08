@@ -22,6 +22,16 @@ public class EnvironmentPropertiesPrinter {
 
         LOGGER.info("{}={}", "spring.data.mongodb.uri", env.getProperty("spring.data.mongodb.uri"));
 
+        LOGGER.info("{}={}", "spring.data.mongodb.host", env.getProperty("spring.data.mongodb.host"));
+
+        LOGGER.info("{}={}", "spring.data.mongodb.port", env.getProperty("spring.data.mongodb.port"));
+
+        LOGGER.info("{}={}", "spring.data.mongodb.database", env.getProperty("spring.data.mongodb.database"));
+
+        LOGGER.info("{}={}", "spring.data.mongodb.username", env.getProperty("spring.data.mongodb.username"));
+
+        LOGGER.info("{}={}", "spring.data.mongodb.password", env.getProperty("spring.data.mongodb.password"));
+
         LOGGER.info("******************************************************************************");
     }
 }
